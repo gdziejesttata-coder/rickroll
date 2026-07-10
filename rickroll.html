@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aktualizacja systemu...</title>
+
+<style>
+body{
+    margin:0;
+    background:#0078D7;
+    color:white;
+    font-family:Segoe UI, Arial, sans-serif;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+}
+
+#screen{
+    text-align:center;
+    width:80%;
+    max-width:700px;
+}
+
+h1{
+    font-size:42px;
+    margin-bottom:25px;
+}
+
+.progress{
+    width:100%;
+    height:30px;
+    background:rgba(255,255,255,.25);
+    border-radius:20px;
+    overflow:hidden;
+}
+
+.bar{
+    width:0%;
+    height:100%;
+    background:white;
+    transition:width 1s linear;
+}
+
+#time{
+    font-size:60px;
+    margin:30px 0 10px;
+}
+
+.small{
+    opacity:.9;
+    font-size:20px;
+}
+
+#video{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:black;
+}
+
+iframe{
+    width:100%;
+    height:100%;
+    border:none;
+}
+</style>
+</head>
+
+<body>
+
+<div id="screen">
+    <h1>Trwa instalowanie aktualizacji...</h1>
+
+    <div class="progress">
+        <div class="bar" id="bar"></div>
+    </div>
+
+    <div id="time">60:00</div>
+
+    <div class="small">
+        Nie wyłączaj komputera.<br>
+        To może potrwać około godziny.
+    </div>
+</div>
+
+<div id="video">
+<iframe
+src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&rel=0"
+allow="autoplay; fullscreen">
+</iframe>
+</div>
+
+<script>
+const total = 3600;
+let left = total;
+
+const timer = document.getElementById("time");
+const bar = document.getElementById("bar");
+
+const interval = setInterval(() => {
+
+    const min = Math.floor(left/60);
+    const sec = left%60;
+
+    timer.textContent =
+        `${min}:${sec.toString().padStart(2,"0")}`;
+
+    const percent = ((total-left)/total)*100;
+    bar.style.width = percent + "%";
+
+    left--;
+
+    if(left < 0){
+        clearInterval(interval);
+
+        document.getElementById("screen").style.display="none";
+        document.getElementById("video").style.display="block";
+    }
+
+},1000);
+</script>
+
+</body>
+</html>
